@@ -3,6 +3,7 @@
     "version": "1.0",
     "manifest_version": 3,
     "description": "Timer plus a task list",
+    "author":"Bruno Ribeiro",
     "action": {
         "default_icon": "icon.png",
         "default_popup": "index.html"
