@@ -1,7 +1,7 @@
 {
     "name": "Pomodoro & Task list",
-    "version": "1.0.0",
-    "manifest_version": 1,
+    "version": "1.0",
+    "manifest_version": 3,
     "description": "Timer plus a task list",
     "browser_action": {
         "default_icon": "icon.png",
