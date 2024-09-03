@@ -1,7 +1,6 @@
 let startTime, intervalId;
 
 function startTimer() {
-    const duration = document.getElementById("duration").value;
     startTime = new Date().getTime() / 1000; // Convert to seconds
     intervalId = setInterval(timer, 1000);
 }
@@ -16,6 +15,7 @@ function resetTimer() {
 }
 
 function timer() {
+    const duration = document.getElementById("duration").value;
     const currentTime = new Date().getTime() / 1000; // Convert to seconds
     const elapsedSeconds = currentTime - startTime;
     document.getElementById("timer").innerHTML = `Elapsed: ${elapsedSeconds.toFixed()} seconds`;
@@ -23,6 +23,7 @@ function timer() {
     if (elapsedSeconds >= duration) {
         clearInterval(intervalId);
         console.log("Timer expired!");
+        document.getElementById("timer").innerHTML = `Timer expired!`;
     }
 }
 
