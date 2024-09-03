@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-        background-color: #f0f0f0;
         font-family: Arial, sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 0;
         }
         #timer {
         font-size: 20px;
@@ -20,18 +22,104 @@
         cursor: pointer;
         margin: 10px;
         }
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333333;
+    }
+
+    .input-container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #2c92ff;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+    }
+
+    .completed {
+        text-decoration: line-through;
+        color: #888888;
+    }
+
+    .center {
+        display: flex;
+        align-self: center;
+        justify-content: center;
+    }
+
+    p {
+        display: inline;
+    }
+
     </style>
     <title>Document</title>
 </head>
 <body>
     <script src="script.js"></script>
 
-    <h1>Calm Timer</h1>
-    <p>Enter duration in seconds:</p>
-    <input type="number" id="duration" value="30">
-    <button onclick="startTimer()">Start</button>
-    <button onclick="stopTimer()">Stop</button>
-    <button onclick="resetTimer()">Reset</button>
-    <p id="timer"></p>
+    <div class="container">
+        <h1>Calm Timer</h1>
+        <p>Enter duration in seconds:</p>
+        <input type="number" id="duration" value="30">
+
+        <div class="center">
+            <button onclick="startTimer()">Start</button>
+            <button onclick="stopTimer()">Stop</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+        <div class="center">
+            <p id="timer"></p>
+        </div>
+        
+    </div>
+
+      <div class="container">
+        <h1>To-Do List</h1>
+        <div class="input-container">
+            <input type="text" id="task" placeholder="Add a new task...">
+            <button id="add" onclick="addTask()">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
 </body>
 </html>

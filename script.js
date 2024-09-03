@@ -25,3 +25,31 @@ function timer() {
         console.log("Timer expired!");
     }
 }
+
+ function addTask() {
+    const taskInput = document.getElementById("task");
+    const taskText = taskInput.value.trim();
+    if (taskText !== "") {
+        createTask(taskText);
+        taskInput.value = "";
+    }
+}
+
+function createTask(text) {
+    const taskList = document.getElementById("taskList");
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+        <span>${text}</span>
+        <button class="delete" onclick="deleteTask(this)">Delete</button>
+    `;
+    taskList.appendChild(taskItem);
+
+    taskItem.addEventListener("click", () => {
+        taskItem.classList.toggle("completed");
+    });
+}
+
+function deleteTask(button) {
+    const taskItem = button.parentElement;
+    taskItem.remove();
+}
