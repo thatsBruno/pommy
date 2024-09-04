@@ -8,8 +8,18 @@ addTaskBtn.onclick = function(){
  const taskInput = document.getElementById("task");
     const taskText = taskInput.value.trim();
     if (taskText !== "") {
-        createTask(taskText);
         taskInput.value = "";
+        const taskList = document.getElementById("taskList");
+        const taskItem = document.createElement("li");
+        taskItem.innerHTML = `
+            <span>${taskText}</span>
+            <button class="delete" onclick="deleteTask(this)">Delete</button>
+        `;
+        taskList.appendChild(taskItem);
+
+        taskItem.addEventListener("click", () => {
+            taskItem.classList.toggle("completed");
+        });
     }
 }
 
@@ -22,21 +32,7 @@ stopBtn.onclick = function(){
 }
 
 resetBtn.onclick = function(){
-    stopTimer();
-    document.getElementById("timer").innerHTML = "Elapsed: 0 seconds";
-}
-
-function startTimer() {
-    startTime = new Date().getTime() / 1000; // Convert to seconds
-    intervalId = setInterval(timer, 1000);
-}
-
-function stopTimer() {
     clearInterval(intervalId);
-}
-
-function resetTimer() {
-    stopTimer();
     document.getElementById("timer").innerHTML = "Elapsed: 0 seconds";
 }
 
