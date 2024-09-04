@@ -1,4 +1,30 @@
 let startTime, intervalId;
+const startBtn = document.getElementById('startBtn')
+const stopBtn = document.getElementById('stopBtn')
+const resetBtn = document.getElementById('resetBtn')
+const addTaskBtn = document.getElementById('add')
+
+addTaskBtn.onclick = function(){
+ const taskInput = document.getElementById("task");
+    const taskText = taskInput.value.trim();
+    if (taskText !== "") {
+        createTask(taskText);
+        taskInput.value = "";
+    }
+}
+
+startBtn.onclick = function(){
+    startTime = new Date().getTime() / 1000; // Convert to seconds
+    intervalId = setInterval(timer, 1000);
+}
+stopBtn.onclick = function(){
+    clearInterval(intervalId);
+}
+
+resetBtn.onclick = function(){
+    stopTimer();
+    document.getElementById("timer").innerHTML = "Elapsed: 0 seconds";
+}
 
 function startTimer() {
     startTime = new Date().getTime() / 1000; // Convert to seconds
@@ -27,7 +53,7 @@ function timer() {
     }
 }
 
- function addTask() {
+function addTask() {
     const taskInput = document.getElementById("task");
     const taskText = taskInput.value.trim();
     if (taskText !== "") {

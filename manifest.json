@@ -5,7 +5,7 @@
     "description": "Timer plus a task list",
     "author":"Bruno Ribeiro",
     "action": {
-        "default_icon": "icon.png",
+        "default_icon": "images/icon.png",
         "default_popup": "index.html"
     },
     "icons": {
@@ -16,9 +16,8 @@
       "js": [
         "script.js"
       ],
-      "matches": [
-        "http://*.//"
-      ]
+      "matches":["<all_urls>"]
     }
-  ]
+  ],
+"permissions": ["scripting","tabs"]
 }

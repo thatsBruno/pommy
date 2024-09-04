@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
         font-family: Arial, sans-serif;
@@ -95,31 +93,28 @@
     <title>Document</title>
 </head>
 <body>
-    <script src="script.js"></script>
-
     <div class="container">
         <h1>Calm Timer</h1>
         <p>Enter duration in seconds:</p>
         <input type="number" id="duration">
-
         <div class="center">
-            <button onclick="startTimer()">Start</button>
-            <button onclick="stopTimer()">Stop</button>
-            <button onclick="resetTimer()">Reset</button>
+            <button id="startBtn">Start</button>
+            <button id="stopBtn">Stop</button>
+            <button id="resetBtn">Reset</button>
         </div>
         <div class="center">
             <p id="timer"></p>
         </div>
-        
     </div>
-
-      <div class="container">
+    <div class="container">
         <h1>To-Do List</h1>
         <div class="input-container">
             <input type="text" id="task" placeholder="Add a new task...">
-            <button id="add" onclick="addTask()">Add</button>
+            <button id="add">Add</button>
         </div>
         <ul id="taskList"></ul>
     </div>
+
 </body>
+<script src="script.js"></script>
 </html>
