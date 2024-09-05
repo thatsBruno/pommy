@@ -6,6 +6,7 @@ const resetBtn = document.getElementById('resetBtn')
 const addTaskBtn = document.getElementById('add')
 let tasks = [{id: "stuff", title: "stuff"}, {id: "stuff", title: "stuff2"}, {id: "stuff", title: "stuff3"}]
 
+addExistingTasks(tasks)
 
 // btns
 addTaskBtn.onclick = function(){
