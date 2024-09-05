@@ -16,11 +16,10 @@ addTaskBtn.onclick = function(){
             task = tasks[i].title;
             taskItem.textContent = task;
             taskList.appendChild(taskItem);
+            taskItem.addEventListener("click", () => {
+                taskItem.classList.toggle("completed");
+            });
         }
-
-    taskItem.addEventListener("click", () => {
-        taskItem.classList.toggle("completed");
-    });
     }
 }
 
