@@ -1,9 +1,9 @@
-// TODO separation of concerns
 let startTime, intervalId, task;
 const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
 const resetBtn = document.getElementById('resetBtn')
 const addTaskBtn = document.getElementById('add')
+// TODO get the tasks from chrome.storage.sync
 let tasks = [{id: "stuff", title: "stuff"}, {id: "stuff", title: "stuff2"}, {id: "stuff", title: "stuff3"}]
 
 addExistingTasks(tasks)
@@ -18,6 +18,8 @@ addTaskBtn.onclick = function(){
         let taskItem = document.createElement("li");
         taskItem.textContent = taskText;
         taskList.appendChild(taskItem);
+        // TODO add to chrome.storage.sync
+
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
         });
@@ -69,7 +71,6 @@ function deleteTask(id) {
 function addExistingTasks(tasks){
     let taskList = document.getElementById("taskList");
     
-    // already existing tasks
     for (let i = 0; i < tasks.length; i++) {
         let taskItem = document.createElement("li");
         task = tasks[i].title;
