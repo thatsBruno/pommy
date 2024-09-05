@@ -3,10 +3,14 @@ const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
 const resetBtn = document.getElementById('resetBtn')
 const addTaskBtn = document.getElementById('add')
-// TODO get the tasks from chrome.storage.sync
-let tasks = [{id: "stuff", title: "stuff"}, {id: "stuff", title: "stuff2"}, {id: "stuff", title: "stuff3"}]
 
-addExistingTasks(tasks)
+// TODO get the tasks from chrome.storage.sync
+function updateTaskList(){
+    chrome.storage.sync.get("tasks").then((result) => {
+        addExistingTasks(result)
+    });
+}
+updateTaskList()
 
 // btns
 addTaskBtn.onclick = function(){
@@ -19,6 +23,9 @@ addTaskBtn.onclick = function(){
         taskItem.textContent = taskText;
         taskList.appendChild(taskItem);
         // TODO add to chrome.storage.sync
+        chrome.storage.sync.set({ "tasks": {id: randomIntFromInterval(1, 50).toFixed(1), title: taskText} }, () => {
+            console.log("Value is set");
+        });
 
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
@@ -53,15 +60,6 @@ function timer() {
     }
 }
 
-function addTask() {
-    const taskInput = document.getElementById("task");
-    const taskText = taskInput.value.trim();
-    if (taskText !== "") {
-        createTask(taskText);
-        taskInput.value = "";
-    }
-}
-
 function deleteTask(id) {
     // TODO iterate over the list and return it withouth the item that has the id
     const taskItem = button.parentElement;
@@ -70,14 +68,19 @@ function deleteTask(id) {
 
 function addExistingTasks(tasks){
     let taskList = document.getElementById("taskList");
-    
+
     for (let i = 0; i < tasks.length; i++) {
         let taskItem = document.createElement("li");
         task = tasks[i].title;
         taskItem.textContent = task;
         taskList.appendChild(taskItem);
+
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
         });
     }
 }
+
+function randomIntFromInterval(min, max) { 
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
