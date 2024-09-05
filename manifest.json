@@ -1,23 +1,21 @@
 {
-    "name": "Pommy",
-    "version": "1.0",
-    "manifest_version": 3,
-    "description": "Timer plus a task list",
-    "author":"Bruno Ribeiro",
-    "action": {
-        "default_icon": "images/icon.png",
-        "default_popup": "index.html"
-    },
-    "icons": {
-        "128": "images/icon.png"
-      },
-      "content_scripts": [
-    {
-      "js": [
-        "script.js"
-      ],
-      "matches":["<all_urls>"]
-    }
+  "name": "Pommy",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Timer plus a task list",
+  "author":"Bruno Ribeiro",
+  "action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "128": "images/icon.png"
+  },
+  "content_scripts": [
+  {
+    "js": ["script.js"],
+    "matches":["<all_urls>"]
+  }
   ],
-"permissions": ["scripting","tabs"]
+  "permissions": ["scripting","tabs","storage"]
 }

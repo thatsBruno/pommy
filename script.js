@@ -1,25 +1,26 @@
-let startTime, intervalId;
+let startTime, intervalId, task;
 const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
 const resetBtn = document.getElementById('resetBtn')
 const addTaskBtn = document.getElementById('add')
+let tasks = [{id: "stuff", title: "stuff"}, {id: "stuff", title: "stuff2"}, {id: "stuff", title: "stuff3"}]
 
 addTaskBtn.onclick = function(){
  const taskInput = document.getElementById("task");
     const taskText = taskInput.value.trim();
     if (taskText !== "") {
-        taskInput.value = "";
-        const taskList = document.getElementById("taskList");
-        const taskItem = document.createElement("li");
-        taskItem.innerHTML = `
-            <span>${taskText}</span>
-            <button class="delete" onclick="deleteTask(this)">Delete</button>
-        `;
-        taskList.appendChild(taskItem);
+        let taskList = document.getElementById("taskList");
+        
+        for (let i = 0; i < tasks.length; i++) {
+            let taskItem = document.createElement("li");
+            task = tasks[i].title;
+            taskItem.textContent = task;
+            taskList.appendChild(taskItem);
+        }
 
-        taskItem.addEventListener("click", () => {
-            taskItem.classList.toggle("completed");
-        });
+    taskItem.addEventListener("click", () => {
+        taskItem.classList.toggle("completed");
+    });
     }
 }
 
@@ -58,21 +59,8 @@ function addTask() {
     }
 }
 
-function createTask(text) {
-    const taskList = document.getElementById("taskList");
-    const taskItem = document.createElement("li");
-    taskItem.innerHTML = `
-        <span>${text}</span>
-        <button class="delete" onclick="deleteTask(this)">Delete</button>
-    `;
-    taskList.appendChild(taskItem);
-
-    taskItem.addEventListener("click", () => {
-        taskItem.classList.toggle("completed");
-    });
-}
-
-function deleteTask(button) {
+function deleteTask(id) {
+    // iterate over the list and return it withouth the item that has the id
     const taskItem = button.parentElement;
     taskItem.remove();
 }
