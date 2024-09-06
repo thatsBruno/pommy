@@ -3,13 +3,9 @@ const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
 const resetBtn = document.getElementById('resetBtn')
 const addTaskBtn = document.getElementById('add')
-let tasks = [
-    {"id": 1, "title": "task1"},
-    {"id": 2, "title": "task2"}
-];
+let tasks = [];
 
-// TODO get the tasks from chrome.storage.sync
-addExistingTasks();
+updateTaskList();
 
 // btns
 addTaskBtn.onclick = function(){
@@ -21,10 +17,11 @@ addTaskBtn.onclick = function(){
         let taskItem = document.createElement("li");
         taskItem.textContent = taskText;
         taskList.appendChild(taskItem);
-        let newTask = {"id":2, "title": taskText}
-        tasks.push(newTask)
+        let newTask = {"id": randomIntFromInterval(1,999), "title": taskText}
 
         // TODO add to chrome.storage.sync
+        addToSyncTasks(newTask)
+
         chrome.storage.local.set({syncTasks: tasks });
 
         taskItem.addEventListener("click", () => {
@@ -47,6 +44,15 @@ resetBtn.onclick = function(){
 }
 
 // functions
+function addToSyncTasks(newTask){
+ chrome.storage.local.get('syncTasks', (result) => {
+    let tasks = result ? result.syncTasks : [{}]
+
+    tasks.unshift(newTask)
+    chrome.storage.local.set({syncTasks: tasks });
+    })
+}
+
 function timer() {
     const duration = document.getElementById("duration").value;
     const currentTime = new Date().getTime() / 1000; // Convert to seconds
@@ -66,7 +72,7 @@ function deleteTask(id) {
     taskItem.remove();
 }
 
-function addExistingTasks(){
+function updateTaskList(){
     chrome.storage.local.get('syncTasks', (result) => {
 
     let tasks = result ? result.syncTasks : [{}]
@@ -82,8 +88,9 @@ function addExistingTasks(){
             taskItem.classList.toggle("completed");
         });
     }
-})}
+    })
+}
 
 function randomIntFromInterval(min, max) { 
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+}
