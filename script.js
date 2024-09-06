@@ -72,7 +72,7 @@ function addExistingTasks(){
     let tasks = result ? result.syncTasks : [{}]
     let taskList = document.getElementById("taskList");
 
-    tasks.forEach((taks) => {
+    tasks.forEach((task) => {
         let taskItem = document.createElement("li");
         taskItem.textContent = task.title;
         taskList.appendChild(taskItem);
