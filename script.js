@@ -3,18 +3,17 @@ const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
 const resetBtn = document.getElementById('resetBtn')
 const addTaskBtn = document.getElementById('add')
+let tasks = [
+    {"id": 1, "title": "task1"},
+    {"id": 2, "title": "task2"}
+];
 
 // TODO get the tasks from chrome.storage.sync
-function updateTaskList(){
-    chrome.storage.sync.get("tasks").then((result) => {
-        addExistingTasks(result)
-    });
-}
-updateTaskList()
+addExistingTasks();
 
 // btns
 addTaskBtn.onclick = function(){
- const taskInput = document.getElementById("task");
+    const taskInput = document.getElementById("task");
     const taskText = taskInput.value.trim();
     if (taskText !== "") {
         let taskList = document.getElementById("taskList");
@@ -22,10 +21,11 @@ addTaskBtn.onclick = function(){
         let taskItem = document.createElement("li");
         taskItem.textContent = taskText;
         taskList.appendChild(taskItem);
+        let newTask = {"id":2, "title": taskText}
+        tasks.push(newTask)
+
         // TODO add to chrome.storage.sync
-        chrome.storage.sync.set({ "tasks": {id: randomIntFromInterval(1, 50).toFixed(1), title: taskText} }, () => {
-            console.log("Value is set");
-        });
+        chrome.storage.sync.set({syncTasks: tasks });
 
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
@@ -66,20 +66,22 @@ function deleteTask(id) {
     taskItem.remove();
 }
 
-function addExistingTasks(tasks){
+function addExistingTasks(){
+    chrome.storage.sync.get('tasks', (result) => {
+
+    let tasks = result ? result.syncTasks : [{}]
     let taskList = document.getElementById("taskList");
 
-    for (let i = 0; i < tasks.length; i++) {
+    tasks.forEach((taks) => {
         let taskItem = document.createElement("li");
-        task = tasks[i].title;
-        taskItem.textContent = task;
+        taskItem.textContent = task.title;
         taskList.appendChild(taskItem);
 
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
         });
-    }
-}
+    });
+})}
 
 function randomIntFromInterval(min, max) { 
     return Math.floor(Math.random() * (max - min + 1) + min);
