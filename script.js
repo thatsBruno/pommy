@@ -25,7 +25,7 @@ addTaskBtn.onclick = function(){
         tasks.push(newTask)
 
         // TODO add to chrome.storage.sync
-        chrome.storage.sync.set({syncTasks: tasks });
+        chrome.storage.local.set({syncTasks: tasks });
 
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
@@ -67,12 +67,13 @@ function deleteTask(id) {
 }
 
 function addExistingTasks(){
-    chrome.storage.sync.get('tasks', (result) => {
+    chrome.storage.local.get('syncTasks', (result) => {
 
     let tasks = result ? result.syncTasks : [{}]
     let taskList = document.getElementById("taskList");
 
-    tasks.forEach((task) => {
+    for (let i = 0; i < tasks.length; i++) {
+        const task = tasks[i];
         let taskItem = document.createElement("li");
         taskItem.textContent = task.title;
         taskList.appendChild(taskItem);
@@ -80,7 +81,7 @@ function addExistingTasks(){
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
         });
-    });
+    }
 })}
 
 function randomIntFromInterval(min, max) { 
