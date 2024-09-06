@@ -1,10 +1,10 @@
-let startTime, intervalId, tasks = [];
+let intervalId, tasks = [];
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
 const resetBtn = document.getElementById('resetBtn');
 const addTaskBtn = document.getElementById('add');
+const timerDisplay = document.getElementById("timer");
 
-// Update the task list from storage on load
 updateTaskList();
 
 // Add task button click handler
@@ -25,20 +25,68 @@ addTaskBtn.onclick = function () {
 
 // Timer start button
 startBtn.onclick = function () {
-    startTime = new Date().getTime() / 1000; // Convert to seconds
-    intervalId = setInterval(timer, 1000);
+    const duration = parseInt(document.getElementById("duration").value) || 10;
+    const startTime = new Date().getTime(); // Current time in milliseconds
+
+    chrome.storage.local.set({ startTime, duration }, function () {
+        startTimer();
+    });
 };
 
 // Timer stop button
 stopBtn.onclick = function () {
     clearInterval(intervalId);
+    chrome.storage.local.remove(['startTime'], function() {
+        timerDisplay.innerHTML = "Timer stopped.";
+    });
 };
 
 // Timer reset button
 resetBtn.onclick = function () {
     clearInterval(intervalId);
-    document.getElementById("timer").innerHTML = "Elapsed: 0 seconds";
+    chrome.storage.local.remove(['startTime', 'duration'], function() {
+        timerDisplay.innerHTML = "Elapsed: 0 seconds";
+    });
 };
+
+// Start the timer function
+function startTimer() {
+    chrome.storage.local.get(['startTime', 'duration'], function (result) {
+        const startTime = result.startTime;
+        const duration = result.duration || 10;
+
+        if (!startTime) {
+            return;
+        }
+
+        intervalId = setInterval(function () {
+            const currentTime = new Date().getTime();
+            const elapsedMilliseconds = currentTime - startTime;
+            const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+
+            if (elapsedSeconds >= duration) {
+                clearInterval(intervalId);
+                timerDisplay.innerHTML = `Timer expired!`;
+                chrome.storage.local.remove(['startTime']); // Timer expired, clear from storage
+            } else {
+                timerDisplay.innerHTML = `Elapsed: ${elapsedSeconds} seconds`;
+            }
+        }, 1000);
+    });
+}
+
+// Update task list from storage
+function updateTaskList() {
+    chrome.storage.local.get(['syncTasks', 'startTime'], (result) => {
+        tasks = result.syncTasks || [];
+        renderTaskList();
+
+        // Check if timer was running
+        if (result.startTime) {
+            startTimer();
+        }
+    });
+}
 
 // Add task to chrome.storage.local
 function addToSyncTasks(newTask) {
@@ -77,27 +125,6 @@ function deleteTask(id) {
     tasks = tasks.filter(task => task.id !== id);
     chrome.storage.local.set({ syncTasks: tasks });
     renderTaskList();
-}
-
-// Update task list from chrome.storage.local
-function updateTaskList() {
-    chrome.storage.local.get('syncTasks', (result) => {
-        tasks = result.syncTasks || [];
-        renderTaskList();
-    });
-}
-
-// Timer function
-function timer() {
-    const duration = document.getElementById("duration").value;
-    const currentTime = new Date().getTime() / 1000; // Convert to seconds
-    const elapsedSeconds = currentTime - startTime;
-    document.getElementById("timer").innerHTML = `Elapsed: ${elapsedSeconds.toFixed()} seconds`;
-
-    if (elapsedSeconds >= duration) {
-        clearInterval(intervalId);
-        document.getElementById("timer").innerHTML = `Timer expired!`;
-    }
 }
 
 // Utility to generate random IDs
