@@ -64,7 +64,9 @@ function startTimer() {
                 clearInterval(intervalId);
                 timerDisplay.innerHTML = `Timer expired!`;
                 chrome.storage.local.remove(['startTime']); // Timer expired, clear from storage
+
                 playNotification();
+                timerLock = false;
             } else {
                 timerDisplay.innerHTML = `Elapsed: ${elapsedSeconds} seconds`;
             }
