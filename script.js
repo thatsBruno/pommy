@@ -1,7 +1,6 @@
 let intervalId, tasks = [];
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
-const resetBtn = document.getElementById('resetBtn');
 const addTaskBtn = document.getElementById('add');
 const timerDisplay = document.getElementById("timer");
 let timerLock = false;
@@ -46,14 +45,6 @@ stopBtn.onclick = function () {
     timerLock = false;
 };
 
-// Timer reset button
-resetBtn.onclick = function () {
-    clearInterval(intervalId);
-    chrome.storage.local.remove(['startTime', 'duration'], function() {
-        timerDisplay.innerHTML = "Elapsed: 0 seconds";
-    });
-};
-
 // Start the timer function
 function startTimer() {
     chrome.storage.local.get(['startTime', 'duration'], function (result) {
@@ -73,6 +64,9 @@ function startTimer() {
                 clearInterval(intervalId);
                 timerDisplay.innerHTML = `Timer expired!`;
                 chrome.storage.local.remove(['startTime']); // Timer expired, clear from storage
+
+                playNotification();
+                timerLock = false;
             } else {
                 timerDisplay.innerHTML = `Elapsed: ${elapsedSeconds} seconds`;
             }
@@ -135,4 +129,13 @@ function deleteTask(id) {
 // Utility to generate random IDs
 function randomIntFromInterval(min, max) { 
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function playNotification() {
+  var yourSound = new Audio('./clock-alarm.mp3');
+  yourSound.play();
+
+  setTimeout(() => {
+    yourSound.pause();
+}, 3000);
 }
