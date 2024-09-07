@@ -64,7 +64,7 @@ function startTimer() {
                 clearInterval(intervalId);
                 timerDisplay.innerHTML = `Timer expired!`;
                 chrome.storage.local.remove(['startTime']); // Timer expired, clear from storage
-                audioNotification();
+                playNotification();
             } else {
                 timerDisplay.innerHTML = `Elapsed: ${elapsedSeconds} seconds`;
             }
@@ -129,7 +129,11 @@ function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function audioNotification() {
+function playNotification() {
   var yourSound = new Audio('./clock-alarm.mp3');
   yourSound.play();
+
+  setTimeout(() => {
+    yourSound.pause();
+}, 3000);
 }
