@@ -4,6 +4,7 @@ const stopBtn = document.getElementById('stopBtn');
 const resetBtn = document.getElementById('resetBtn');
 const addTaskBtn = document.getElementById('add');
 const timerDisplay = document.getElementById("timer");
+let timerLock = false;
 
 updateTaskList();
 
@@ -25,12 +26,15 @@ addTaskBtn.onclick = function () {
 
 // Timer start button
 startBtn.onclick = function () {
-    const duration = parseInt(document.getElementById("duration").value) || 10;
-    const startTime = new Date().getTime(); // Current time in milliseconds
+    if(!timerLock){
+        const duration = parseInt(document.getElementById("duration").value) || 10;
+        const startTime = new Date().getTime(); // Current time in milliseconds
 
-    chrome.storage.local.set({ startTime, duration }, function () {
-        startTimer();
-    });
+        chrome.storage.local.set({ startTime, duration }, function () {
+            startTimer();
+        });
+        timerLock = true;
+    }
 };
 
 // Timer stop button
@@ -39,6 +43,7 @@ stopBtn.onclick = function () {
     chrome.storage.local.remove(['startTime'], function() {
         timerDisplay.innerHTML = "Timer stopped.";
     });
+    timerLock = false;
 };
 
 // Timer reset button
