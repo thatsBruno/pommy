@@ -102,3 +102,9 @@ p {
 .input-container {
     margin: 2rem;
 }
+
+.taskItem-div {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+

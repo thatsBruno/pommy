@@ -102,20 +102,25 @@ function renderTaskList() {
     taskList.innerHTML = ''; // Clear the existing list
 
     tasks.forEach(task => {
+        let taskDiv = document.createElement("div")
         let taskItem = document.createElement("li");
+        taskDiv.className = "taskItem-div";
+        taskItem.className = "taskItem";
         taskItem.textContent = task.title;
 
         // Add delete button
         let deleteButton = document.createElement("button");
+        deleteButton.className = "taskItem=btn";
         deleteButton.textContent = "Delete";
         deleteButton.onclick = () => deleteTask(task.id);
 
-        taskItem.appendChild(deleteButton);
+        taskDiv.appendChild(taskItem);
+        taskDiv.appendChild(deleteButton);
         taskItem.addEventListener("click", () => {
             taskItem.classList.toggle("completed");
         });
 
-        taskList.appendChild(taskItem);
+        taskList.appendChild(taskDiv);
     });
 }
 
