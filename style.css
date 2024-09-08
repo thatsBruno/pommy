@@ -27,7 +27,7 @@ button {
 
 .container {
     max-width: 400px;
-    margin: 3rem;
+    margin: 3rem; /* Center the container horizontally */
     background-color: #292b2e;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -46,14 +46,18 @@ h1 {
 .input-container {
     display: flex;
     margin-bottom: 20px;
+    align-items: center; /* Align items vertically */
 }
 
 input[type="text"] {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    background-color: transparent;
     font-size: 16px;
+    color: #ffffff;
+    outline: none;
 }
 
 button:hover {
@@ -73,7 +77,7 @@ li {
     border-radius: 4px;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ffffff;
+    background-color: #ffffff; /* Match with body background */
 }
 
 .completed {
@@ -97,14 +101,22 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%; /* Ensure full width */
 }
 
 .input-container {
-    margin: 2rem;
+    margin: 2rem 0rem; /* Adjust vertical margin */
 }
 
 .taskItem-div {
     display: grid;
     grid-template-columns: 3fr 1fr;
+    gap: 10px; /* Add gap between columns */
+    align-items: center; /* Align items vertically */
+}
+
+/* Add this new rule for better button alignment */
+.taskItem-div button {
+    justify-self: end; /* Align button to the right */
 }
 
